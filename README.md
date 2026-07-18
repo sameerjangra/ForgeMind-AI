@@ -1,6 +1,6 @@
 # ForgeMind AI - Autonomous AI Software Engineer
 
-ForgeMind AI is an advanced, multi-agent AI software engineering workspace. It provides an intuitive platform to upload, scan, and analyze codebases autonomously. Powered by state-of-the-art Generative AI models, ForgeMind helps developers detect bugs, evaluate security vulnerabilities, optimize performance, and understand complex architecture instantly.
+ForgeMind AI is an AI software engineer that scans your entire codebase, maps dependencies, uncovers security bugs, runs optimization tasks, and implements code in minutes. It provides an intuitive platform to upload, scan, and analyze codebases autonomously. Powered by state-of-the-art Generative AI models, ForgeMind helps developers detect bugs, evaluate security vulnerabilities, optimize performance, and understand complex architecture instantly.
 
 ## 🚀 Features
 
