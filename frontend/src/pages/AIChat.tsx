@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Cpu, Loader, ChevronRight, CornerDownLeft } from 'lucide-react';
-import axios from 'axios';
+import api from '../api';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Project, ChatMessage } from '../types';
@@ -16,6 +16,7 @@ export const AIChat: React.FC<AIChatProps> = ({ project, onSelectFile }) => {
   const [sending, setSending] = useState(false);
   const [agentLogs, setAgentLogs] = useState<string[]>([]);
   const [errorMsg, setErrorMsg] = useState('');
+
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   const presetQueries = [
@@ -29,7 +30,7 @@ export const AIChat: React.FC<AIChatProps> = ({ project, onSelectFile }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get(`/api/projects/${project.id}/chat/history`);
+        const res = await api.get(`/api/projects/${project.id}/chat/history`);
         setMessages(res.data);
       } catch (err) {
         console.error('Failed to load chat history', err);
@@ -89,7 +90,7 @@ export const AIChat: React.FC<AIChatProps> = ({ project, onSelectFile }) => {
     }, 600);
 
     try {
-      const res = await axios.post(`/api/projects/${project.id}/chat`, { message: queryText });
+      const res = await api.post(`/api/projects/${project.id}/chat`, { message: queryText });
       clearInterval(logInterval);
       const assistantMsg: ChatMessage = {
         role: 'assistant',

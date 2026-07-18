@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
-import axios from 'axios';
+import api from '../api';
 import type { Project, FileNode } from '../types';
 import { Folder, File, ChevronDown, ChevronRight, HelpCircle, Code2, AlertTriangle } from 'lucide-react';
 
@@ -28,7 +28,7 @@ export const CodeExplorer: React.FC<CodeExplorerProps> = ({
   useEffect(() => {
     const fetchTree = async () => {
       try {
-        const res = await axios.get(`/api/projects/${project.id}/files`);
+        const res = await api.get(`/api/projects/${project.id}/files`);
         setTree(res.data);
       } catch (err) {
         console.error('Failed to load project file tree', err);
@@ -56,7 +56,7 @@ export const CodeExplorer: React.FC<CodeExplorerProps> = ({
     try {
       setLoading(true);
       onSelectFilePath(path);
-      const res = await axios.get(`/api/projects/${project.id}/files/content`, {
+      const res = await api.get(`/api/projects/${project.id}/files/content`, {
         params: { path }
       });
       setFileContent(res.data.content);
@@ -92,7 +92,7 @@ export const CodeExplorer: React.FC<CodeExplorerProps> = ({
     setExplaining(true);
     setExplanation(null);
     try {
-      const res = await axios.get(`/api/projects/${project.id}/explain-file`, {
+      const res = await api.get(`/api/projects/${project.id}/explain-file`, {
         params: { path }
       });
       setExplanation(res.data);

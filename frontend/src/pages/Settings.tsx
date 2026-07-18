@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Settings as SettingsIcon, ShieldCheck, Key, Info, HelpCircle } from 'lucide-react';
+import api from '../api';
+import { Settings as SettingsIcon, Key, Info, HelpCircle } from 'lucide-react';
 
 export const Settings: React.FC = () => {
   const [apiKey, setApiKey] = useState('');
@@ -15,7 +15,7 @@ export const Settings: React.FC = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get('/api/settings');
+      const res = await api.get('/api/settings');
       setHasKey(res.data.has_key);
       setMaskedKey(res.data.masked_key);
     } catch (err) {
@@ -28,7 +28,7 @@ export const Settings: React.FC = () => {
     setSaving(true);
     setMsg('');
     try {
-      await axios.post('/api/settings', { groq_api_key: apiKey });
+      await api.post('/api/settings', { groq_api_key: apiKey });
       setApiKey('');
       setMsg('API Configuration updated successfully.');
       fetchSettings();

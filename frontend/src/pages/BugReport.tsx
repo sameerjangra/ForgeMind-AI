@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import type { Project } from '../types';
-import { Bug, ArrowRight, AlertTriangle, InfoIcon, Loader } from 'lucide-react';
+import { Bug, ArrowRight, Loader } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -40,11 +40,11 @@ export const BugReport: React.FC<BugReportProps> = ({ project, onNavigateToChat 
       setLoading(true);
       try {
         // Fetch structured dynamic issues
-        const issuesRes = await axios.get(`/api/projects/${project.id}/scan-issues`);
+        const issuesRes = await api.get(`/api/projects/${project.id}/scan-issues`);
         setBugsList(issuesRes.data.bugs || []);
 
         // Fetch the raw markdown agent report
-        const reportRes = await axios.get(`/api/projects/${project.id}/report/bugs`);
+        const reportRes = await api.get(`/api/projects/${project.id}/report/bugs`);
         setReportContent(reportRes.data.content || '');
       } catch (err) {
         console.error('Failed to load bug report', err);

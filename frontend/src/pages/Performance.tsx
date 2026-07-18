@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import type { Project } from '../types';
 import { Zap, ArrowRight, Loader } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -39,10 +39,10 @@ export const Performance: React.FC<PerformanceProps> = ({ project, onNavigateToC
     const load = async () => {
       setLoading(true);
       try {
-        const issuesRes = await axios.get(`/api/projects/${project.id}/scan-issues`);
+        const issuesRes = await api.get(`/api/projects/${project.id}/scan-issues`);
         setOptimizationsList(issuesRes.data.performance || []);
 
-        const reportRes = await axios.get(`/api/projects/${project.id}/report/performance`);
+        const reportRes = await api.get(`/api/projects/${project.id}/report/performance`);
         setReportContent(reportRes.data.content || '');
       } catch (err) {
         console.error('Failed to load performance report', err);

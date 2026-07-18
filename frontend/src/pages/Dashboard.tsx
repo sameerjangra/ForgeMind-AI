@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Project } from '../types';
-import { ShieldAlert, Zap, Layers, FileCode2, Code, ShieldCheck, Flame, BookOpen, GraduationCap } from 'lucide-react';
+import { ShieldAlert, Layers, FileCode2, Code, Flame } from 'lucide-react';
 
 interface DashboardProps {
   project: Project;

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ReactFlow, { Background, Controls } from 'reactflow';
 import type { Node, Edge } from 'reactflow';
 import 'reactflow/dist/style.css';
-import axios from 'axios';
+import api from '../api';
 import type { Project } from '../types';
-import { Layers, HelpCircle, HardDrive, ShieldCheck, ArrowRightLeft } from 'lucide-react';
+import { Layers, HelpCircle, ArrowRightLeft } from 'lucide-react';
 
 interface ArchitectureProps {
   project: Project;
@@ -20,7 +20,7 @@ export const Architecture: React.FC<ArchitectureProps> = ({ project }) => {
     const fetchArchitecture = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/projects/${project.id}/report/architecture`);
+        const res = await api.get(`/api/projects/${project.id}/report/architecture`);
         
         // Apply custom premium styling to nodes
         const styledNodes = res.data.nodes.map((node: any) => ({

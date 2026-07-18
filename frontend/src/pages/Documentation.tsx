@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import type { Project } from '../types';
 import { BookOpen, Copy, Check, FileDown } from 'lucide-react';
 
@@ -17,7 +17,7 @@ export const Documentation: React.FC<DocumentationProps> = ({ project }) => {
     const fetchReport = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/projects/${project.id}/report/documentation`);
+        const res = await api.get(`/api/projects/${project.id}/report/documentation`);
         
         let rawMarkdown = res.data.content || '';
         setMarkdown(rawMarkdown);

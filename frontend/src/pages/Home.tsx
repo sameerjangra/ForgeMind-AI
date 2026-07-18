@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cpu, Code2, ShieldAlert, Zap, BookOpen, Layers } from 'lucide-react';
+import { Cpu, Code2, ShieldAlert, Zap } from 'lucide-react';
 
 interface HomeProps {
   onLaunch: () => void;

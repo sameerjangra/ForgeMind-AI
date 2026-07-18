@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, GitBranch, Play, Cpu, CheckCircle, Loader } from 'lucide-react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Upload, Cpu, CheckCircle, Loader } from 'lucide-react';
+import api from '../api';
 
 interface UploadProjectProps {
   onUploadSuccess: (projectId: string) => void;
@@ -32,7 +32,6 @@ export const UploadProject: React.FC<UploadProjectProps> = ({ onUploadSuccess })
     setErrorMsg('');
     
     let currentLogIndex = 0;
-    let currentAgentIndex = 0;
     setActiveAgentIdx(0);
     
     const interval = setInterval(() => {
@@ -71,22 +70,7 @@ export const UploadProject: React.FC<UploadProjectProps> = ({ onUploadSuccess })
     }, 450); // fast log printing speed
   };
 
-  const handleDemoLaunch = async () => {
-    try {
-      setLoading(true);
-      setStatusText('Contacting Seed Endpoint...');
-      const res = await axios.post('/api/demo-seed');
-      
-      // Get analysis logs from database reports
-      const logRes = await axios.get(`/api/projects/${res.data.project_id}/report/logs`);
-      const scanLogs = logRes.data;
-      
-      runAgentAnimation(res.data.project_id, scanLogs);
-    } catch (err: any) {
-      setLoading(false);
-      setErrorMsg(err.response?.data?.detail || 'Failed to initialize demo repository');
-    }
-  };
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -105,12 +89,12 @@ export const UploadProject: React.FC<UploadProjectProps> = ({ onUploadSuccess })
       setStatusText('Uploading ZIP archive...');
       const formData = new FormData();
       formData.append('file', file);
-      res = await axios.post('/api/upload', formData, {
+      res = await api.post('/api/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       
       // Get analysis logs from database reports
-      const logRes = await axios.get(`/api/projects/${res.data.project_id}/report/logs`);
+      const logRes = await api.get(`/api/projects/${res.data.project_id}/report/logs`);
       const scanLogs = logRes.data;
       
       runAgentAnimation(res.data.project_id, scanLogs);

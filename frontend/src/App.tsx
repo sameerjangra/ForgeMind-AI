@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from './api';
 import type { Project } from './types';
 
 // Page Imports
@@ -17,7 +17,6 @@ import { Settings } from './pages/Settings';
 
 // Icon Imports
 import { 
-  Home as HomeIcon, 
   Upload, 
   Gauge, 
   Code, 
@@ -33,8 +32,7 @@ import {
   Trash2
 } from 'lucide-react';
 
-// Configure Axios defaults to make sure it routes backend API requests cleanly
-axios.defaults.baseURL = 'http://localhost:8000';
+// axios baseURL handled by centralized client in ./api
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('home');
@@ -52,7 +50,7 @@ export const App: React.FC = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('/api/projects');
+      const res = await api.get('/api/projects');
       setProjects(res.data);
       if (res.data.length > 0 && !activeProject) {
         // Auto select last project if none is active
@@ -66,7 +64,7 @@ export const App: React.FC = () => {
   const handleUploadSuccess = async (projectId: string) => {
     try {
       // Reload projects and activate the uploaded project
-      const res = await axios.get('/api/projects');
+      const res = await api.get('/api/projects');
       setProjects(res.data);
       const newlyCreated = res.data.find((p: Project) => p.id === projectId);
       if (newlyCreated) {
@@ -81,7 +79,7 @@ export const App: React.FC = () => {
   const handleDeleteProject = async (projectId: string) => {
     setDeleteError('');
     try {
-      await axios.delete(`/api/projects/${projectId}`);
+      await api.delete(`/api/projects/${projectId}`);
       const updated = projects.filter(p => p.id !== projectId);
       setProjects(updated);
       setConfirmDeleteId(null);
